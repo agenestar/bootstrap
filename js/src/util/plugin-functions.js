@@ -8,7 +8,7 @@ import { getElementFromSelector, isDisabled } from './index'
  * --------------------------------------------------------------------------
  */
 
-const enableDismissTrigger = (callback, Plugin, componentClass) => {
+const enableDismissTrigger = (callback, Plugin) => {
   const clickEvent = `click.dismiss${Plugin.EVENT_KEY}`
 
   EventHandler.on(document, clickEvent, `[data-bs-dismiss="${Plugin.NAME}"]`, function (event) {
@@ -20,8 +20,8 @@ const enableDismissTrigger = (callback, Plugin, componentClass) => {
       return
     }
 
-    const target = getElementFromSelector(this) || this.closest(`.${componentClass || Plugin.NAME}`)
-    const component = Plugin.getInstance(target) || new Plugin(target)
+    const target = getElementFromSelector(this) || this.closest(`.${Plugin.NAME}`)
+    const component = Plugin.getOrCreateInstance(target)
 
     callback(component, event)
   })
